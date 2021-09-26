@@ -1,15 +1,15 @@
-
 import random
 class Story():
-    def __init__(self, friend, foe):
-        self.friend = friend
-        self.foe = foe
+    def __init__(self, character):
+        self.character = character
         self.scenario = (random.randint(3,4) * 12345 * random.randint(1,2)) % 2
         self.scenario += ((random.randint(3,4) * 12345 * random.randint(1,2)) % 2)
         if self.scenario == 0:
-            self.character = friend
+            self.character.friend = True
         else:
-            self.character = foe
+            self.character.friend = False
+    def fetchFriendStatus(self):
+        return self.character.friend
 
 ##newStory = Story("bob","janice")
 ##print(newStory.foe)
@@ -59,10 +59,14 @@ bastian = Character('Big Friendly Python'
 , {'win': 'You just received a new friend! With big snake hugs! The python protects you from the jaguar onslaught', 'lose': 'You run away and trip over a branch... you were eaten by pirhanas'}
 , {1:["What is your name?","Big Friendly Python Junior Esquire 3rd"], 2:["What is your quest?","To do friendly stuff and help you in this game."],3:["What is your favorite color?","Blue-No! Wait!"], 4:["Is this a question?","Yes, it is indeed"],5:["Is this also a question?","Yep......"], 6:["I like turtles.","What?"]})
 
-print(bastian)
-print(bastian.answer_countdown)
-print(bastian.get_question(1))
-print(bastian.get_answer(1))
-print(bastian.distrust())
-print(bastian.trust())
- 
+newStory = Story(bastian)
+print(newStory.fetchFriendStatus())
+print(newStory.character)
+print(newStory.character.trust())
+##print(bastian)
+##bastian.friend = True
+##print(bastian.answer_countdown)
+##print(bastian.get_question(1))
+##print(bastian.get_answer(1))
+##print(bastian.distrust())
+##print(bastian.trust())
