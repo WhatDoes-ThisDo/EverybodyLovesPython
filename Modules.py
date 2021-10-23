@@ -21,10 +21,11 @@ class Story():
 #  
 
 class Character():
-    def __init__(self, name, friend, evil, good,
+    def __init__(self, name, intro, evil, good,
                  q_and_a):
         self.name = name
-        self.friend = friend
+        self.intro = intro
+        self.friend = False
         self.q_and_a = q_and_a #question being q_and_a[num][0] and answer being q_and_a[num][1]
         # limit the number of allowed questions to half the total
         self.evil = evil
@@ -33,6 +34,8 @@ class Character():
         
     def __repr__(self):
         return self.name
+    def get_intro(self):
+        return self.intro
     def get_question(self, numKey):
         return self.q_and_a[numKey][0]
     def trust(self):
@@ -53,16 +56,16 @@ class Character():
  # good = {'win': "", lose:""}   
 
 #test the class using an instance
-bastian = Character('Big Friendly Python'
-,False
-, {'win': "You run away right before the 'friendly' python bytes you. You win, I guess...", 'lose':'You were swallowed by the snake....'}
-, {'win': 'You just received a new friend! With big snake hugs! The python protects you from the jaguar onslaught', 'lose': 'You run away and trip over a branch... you were eaten by pirhanas'}
-, {1:["What is your name?","Big Friendly Python Junior Esquire 3rd"], 2:["What is your quest?","To do friendly stuff and help you in this game."],3:["What is your favorite color?","Blue-No! Wait!"], 4:["Is this a question?","Yes, it is indeed"],5:["Is this also a question?","Yep......"], 6:["I like turtles.","What?"]})
-
-newStory = Story(bastian)
-print(newStory.fetchFriendStatus())
-print(newStory.character)
-print(newStory.character.trust())
+##bastian = Character('Big Friendly Python'
+##,False
+##, {'win': "You run away right before the 'friendly' python bytes you. You win, I guess...", 'lose':'You were swallowed by the snake....'}
+##, {'win': 'You just received a new friend! With big snake hugs! The python protects you from the jaguar onslaught', 'lose': 'You run away and trip over a branch... you were eaten by pirhanas'}
+##, {1:["What is your name?","Big Friendly Python Junior Esquire 3rd"], 2:["What is your quest?","To do friendly stuff and help you in this game."],3:["What is your favorite color?","Blue-No! Wait!"], 4:["Is this a question?","Yes, it is indeed"],5:["Is this also a question?","Yep......"], 6:["I like turtles.","What?"]})
+##
+##newStory = Story(bastian)
+##print(newStory.fetchFriendStatus())
+##print(newStory.character)
+##print(newStory.character.trust())
 ##print(bastian)
 ##bastian.friend = True
 ##print(bastian.answer_countdown)
