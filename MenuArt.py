@@ -28,5 +28,3 @@ def menuArt():
         """
         )
     return menu
-
-print(menuArt())
