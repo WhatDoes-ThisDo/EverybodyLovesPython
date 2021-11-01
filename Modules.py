@@ -31,6 +31,7 @@ class Character():
         self.evil = evil
         self.good = good
         self.answer_countdown = round(len(self.q_and_a.keys())/2)
+        self.asked = []
         
     def __repr__(self):
         return self.name
@@ -49,7 +50,12 @@ class Character():
         if self.friend == False:
             return self.evil['win']
     def get_answer(self, numKey):
-        return self.q_and_a[numKey][1]
+        if numKey not in self.asked and numKey in self.q_and_a.keys():
+            self.asked.append(numKey)
+            return str(self.q_and_a[numKey][1])
+        else:
+            return "I'm sorry. I don't think they understood that."
+            
 
 
  #syntax about good
