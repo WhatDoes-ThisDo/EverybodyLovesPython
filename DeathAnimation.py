@@ -49,12 +49,13 @@ def deathArt2():
         )
     return frame
 
-# death animation test
-animation = [deathArt2(), deathArt1()]
-loop = 0
-while loop < 3:
-    for frame in animation:
-        time.sleep(0.4)
-        clearScreen()
-        print(frame)    
-    loop += 1
+def runAnimation():
+    # death animation test
+    animation = [deathArt2(), deathArt1()]
+    loop = 0
+    while loop < 3:
+        for frame in animation:
+            time.sleep(0.4)
+            clearScreen()
+            print(frame)    
+        loop += 1
