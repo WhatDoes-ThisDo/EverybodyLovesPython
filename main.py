@@ -55,11 +55,10 @@ def main():
 I am also a friendly python thing!
 It\'s not safe here, so you\'ll have to come with me."'''
 , {'win': "You run away right before the 'friendly' python bites you. You win, I guess...", 'lose':'You were swallowed by the snake....'}
-, {'win': 'You just received a new friend! With big snake hugs! The python protects you from the jaguar onslaught', 'lose': 'You run away and trip over a branch... you were eaten by pirhanas'}
+, {'win': 'You just received a new friend! With big snake hugs! The python protects you from the jaguar onslaught', 'lose': 'You run away and trip over a branch... you fell in the Amazon and were eaten by piranhas.'}
 , {1:["What is your name?","Big Friendly Python Junior Esquire 3rd"], 2:["What is your quest?","To do friendly stuff and help you in this game."],3:["What is your favorite color?","Blue-No! Wait!"], 4:["Is this a question?","Yes, it is indeed"],5:["Is this also a question?","Yep......"], 6:["I like turtles.","What?"]})
 
         story = Modules.Story(bastian)
-        print(bastian.Friend)
     ##  Create introduction and grab initial question as input
         print(divider)
         input('\n\n' + bastian.get_intro() + '\n\n' + divider + '\nPress Enter to Continue')
@@ -77,14 +76,16 @@ It\'s not safe here, so you\'ll have to come with me."'''
         if playerTrust.upper() == "Y":
             if bastian.trust() == bastian.evil['lose']:  
                 DeathAnimation.runAnimation()              
-                print(divider + str(bastian.trust()))
+                print(divider + '\n' + str(bastian.trust()))
             else:
+                clearScreen()
                 print(str(bastian.trust()))
         else:
             if bastian.distrust() == bastian.good['lose']:
                 DeathAnimation.runAnimation()
                 print('\n'+ divider + '\n' + str(bastian.distrust()))
             else:
+                clearScreen()
                 print(str(bastian.distrust()))
         
     else:
