@@ -1,5 +1,7 @@
 # EverybodyLovesPython
+
 By Mathew Burks
+
 Simple character interaction game.
 A project for the CodeCademy Computer Science specialization.
 
