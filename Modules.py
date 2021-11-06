@@ -1,81 +1,94 @@
-import random
-class Story():
-    def __init__(self, character):
-        self.character = character
-        self.scenario = (random.randint(3,4) * 12345 * random.randint(1,2)) % 2
-        self.scenario += ((random.randint(3,4) * 12345 * random.randint(1,2)) % 2)
-        if self.scenario == 0:
-            self.character.friend = True
+import os
+import sys
+import Modules
+import MenuArt
+import time
+import DeathAnimation
+
+def clearScreen():
+    if os.name.lower() == "posix":
+        os.system("clear")
+    else:
+        os.system("cls")
+
+def hud(topText, middleText, bottomText, divider):
+    clearScreen()
+    print(divider + '\n' + divider)
+    print(topText)
+    if middleText != '':
+        print(divider + '\n' + divider)
+        print(middleText)
+    print(divider + '\n' + divider)
+    print(bottomText)
+    print(divider + '\n' + divider)
+
+def questionMenu(character):
+    stringConcat = ''
+    for item in character.q_and_a.keys():
+            if item not in character.asked:
+                stringConcat += str(item) + '. ' + character.get_question(item) + '\n'
+    return stringConcat
+    
+def main():
+    divider = '------------------------------------------------------------'
+
+    # start screen animation
+    animation = [MenuArt.menuArt1(), MenuArt.menuArt2(), MenuArt.menuArt3(), MenuArt.menuArt4()]
+    for frame in animation:
+        time.sleep(0.5)
+        clearScreen()
+        print(frame)
+    for frame in animation[-2::-1]:
+        time.sleep(0.5)
+        clearScreen()
+        print(frame)
+
+    #prompt user to start
+    print("Want to Start?")
+    startOrQuit = str(input('Press "Y" to Begin or Other Keys to Quit: '))
+    if startOrQuit.upper() == "Y":
+
+    #   create character object
+        clearScreen()
+        bastian = Modules.Character('Big Friendly Python', '''For some reason, you are hiking in a jungle and hear
+"Hi! I am a model character to test the game\'s story system!
+I am also a friendly python thing!
+It\'s not safe here, so you\'ll have to come with me."'''
+, {'win': "You run away right before the 'friendly' python bites you. You win, I guess...", 'lose':'You were swallowed by the snake....'}
+, {'win': 'You just received a new friend! With big snake hugs! The python protects you from the jaguar onslaught', 'lose': 'You run away and trip over a branch... you fell in the Amazon and were eaten by piranhas.'}
+, {1:["What is your name?","Big Friendly Python Junior Esquire 3rd"], 2:["What is your quest?","To do friendly stuff and help you in this game."],3:["What is your favorite color?","Blue-No! Wait!"], 4:["Is this a question?","Yes, it is indeed"],5:["Is this also a question?","Yep......"], 6:["I like turtles.","What?"]})
+
+        story = Modules.Story(bastian)
+    ##  Create introduction and grab initial question as input
+        print(divider)
+        input('\n\n' + bastian.get_intro() + '\n\n' + divider + '\nPress Enter to Continue')
+        clearScreen()
+        questionNum = int(len(bastian.q_and_a) / 2)
+        hud("""You might want to ask this character a few questions first. \nYou just met them, after all.""","You only have time to ask " + str(questionNum) + " questions. Ask wisely!",questionMenu(bastian), divider)
+        theQuestion = int(input("Choose the number key for the question you want to ask, then press Enter: "))
+        questionNum -= 1
+        while questionNum > 0:
+            hud(bastian.get_answer(theQuestion),"You only have time to ask " + str(questionNum) + " questions. Ask wisely!",questionMenu(bastian), divider)
+            theQuestion = int(input("Choose the number key for the question you want to ask, then press Enter: "))
+            questionNum -= 1
+        hud(bastian.get_answer(theQuestion), str(bastian) + " is urging you to trust them. Do you?", "Y - Yes \nN - No", divider)
+        playerTrust = input("Y for Yes and N for No: ")
+        if playerTrust.upper() == "Y":
+            if bastian.trust() == bastian.evil['lose']:  
+                DeathAnimation.runAnimation()              
+                print(divider + '\n' + str(bastian.trust()))
+            else:
+                clearScreen()
+                print(str(bastian.trust()))
         else:
-            self.character.friend = False
-    def fetchFriendStatus(self):
-        return self.character.friend
-
-##newStory = Story("bob","janice")
-##print(newStory.foe)
-##print(newStory.friend)
-##print(newStory.scenario)
-##print(newStory.character)
-
-#ToDo:
-#  
-
-class Character():
-    def __init__(self, name, intro, evil, good,
-                 q_and_a):
-        self.name = name
-        self.intro = intro
-        self.friend = False
-        self.q_and_a = q_and_a #question being q_and_a[num][0] and answer being q_and_a[num][1]
-        # limit the number of allowed questions to half the total
-        self.evil = evil
-        self.good = good
-        self.answer_countdown = round(len(self.q_and_a.keys())/2)
-        self.asked = []
+            if bastian.distrust() == bastian.good['lose']:
+                DeathAnimation.runAnimation()
+                print('\n'+ divider + '\n' + str(bastian.distrust()))
+            else:
+                clearScreen()
+                print(str(bastian.distrust()))
         
-    def __repr__(self):
-        return self.name
-    def get_intro(self):
-        return self.intro
-    def get_question(self, numKey):
-        return self.q_and_a[numKey][0]
-    def trust(self):
-        if self.friend == True:
-            return self.good['win']
-        if self.friend == False:
-            return self.evil['lose']
-    def distrust(self):
-        if self.friend == True:
-            return self.good['lose']
-        if self.friend == False:
-            return self.evil['win']
-    def get_answer(self, numKey):
-        if numKey not in self.asked and numKey in self.q_and_a.keys():
-            self.asked.append(numKey)
-            return str(self.q_and_a[numKey][1])
-        else:
-            return "I'm sorry. I don't think they understood that."
-            
+    else:
+        sys.exit("Have a good one!")
 
-
- #syntax about good
- # good = {'win': "", lose:""}   
-
-#test the class using an instance
-##bastian = Character('Big Friendly Python'
-##,False
-##, {'win': "You run away right before the 'friendly' python bytes you. You win, I guess...", 'lose':'You were swallowed by the snake....'}
-##, {'win': 'You just received a new friend! With big snake hugs! The python protects you from the jaguar onslaught', 'lose': 'You run away and trip over a branch... you were eaten by pirhanas'}
-##, {1:["What is your name?","Big Friendly Python Junior Esquire 3rd"], 2:["What is your quest?","To do friendly stuff and help you in this game."],3:["What is your favorite color?","Blue-No! Wait!"], 4:["Is this a question?","Yes, it is indeed"],5:["Is this also a question?","Yep......"], 6:["I like turtles.","What?"]})
-##
-##newStory = Story(bastian)
-##print(newStory.fetchFriendStatus())
-##print(newStory.character)
-##print(newStory.character.trust())
-##print(bastian)
-##bastian.friend = True
-##print(bastian.answer_countdown)
-##print(bastian.get_question(1))
-##print(bastian.get_answer(1))
-##print(bastian.distrust())
-##print(bastian.trust())
+main()
