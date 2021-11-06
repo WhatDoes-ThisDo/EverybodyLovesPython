@@ -59,6 +59,7 @@ It\'s not safe here, so you\'ll have to come with me."'''
 , {1:["What is your name?","Big Friendly Python Junior Esquire 3rd"], 2:["What is your quest?","To do friendly stuff and help you in this game."],3:["What is your favorite color?","Blue-No! Wait!"], 4:["Is this a question?","Yes, it is indeed"],5:["Is this also a question?","Yep......"], 6:["I like turtles.","What?"]})
 
         story = Modules.Story(bastian)
+        print(bastian.Friend)
     ##  Create introduction and grab initial question as input
         print(divider)
         input('\n\n' + bastian.get_intro() + '\n\n' + divider + '\nPress Enter to Continue')
@@ -72,6 +73,20 @@ It\'s not safe here, so you\'ll have to come with me."'''
             theQuestion = int(input("Choose the number key for the question you want to ask, then press Enter: "))
             questionNum -= 1
         hud(bastian.get_answer(theQuestion), str(bastian) + " is urging you to trust them. Do you?", "Y - Yes \nN - No", divider)
+        playerTrust = input("Y for Yes and N for No: ")
+        if playerTrust.upper() == "Y":
+            if bastian.trust() == bastian.evil['lose']:  
+                DeathAnimation.runAnimation()              
+                print(divider + str(bastian.trust()))
+            else:
+                print(str(bastian.trust()))
+        else:
+            if bastian.distrust() == bastian.good['lose']:
+                DeathAnimation.runAnimation()
+                print('\n'+ divider + '\n' + str(bastian.distrust()))
+            else:
+                print(str(bastian.distrust()))
+        
     else:
         sys.exit("Have a good one!")
 
